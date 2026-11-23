@@ -19,9 +19,9 @@ h1{font-size:clamp(31px,5vw,49px);line-height:1.18;letter-spacing:-.04em;margin:
 @media(max-width:700px){.shell{padding:14px 12px 24px}main{grid-template-columns:1fr;margin-top:14px;border-radius:24px}.stage{padding:18px 15px 15px;gap:14px}.clock{width:min(64vw,265px);border-width:8px}.quiz{padding:18px}.legend{font-size:13px;padding:5px 12px}h1{margin-top:13px}.answers{margin-top:13px}.answer{min-height:49px;font-size:24px}.feedback{min-height:45px}.brand{font-size:17px}}
 .popover{position:fixed;inset:0;display:grid;place-items:center;padding:24px;background:#173b3359;z-index:5}.popover[hidden]{display:none}.message{width:min(100%,310px);border-radius:25px;background:#fffdf5;border:3px solid #9ac5a5;padding:25px;text-align:center;box-shadow:0 12px 40px #173b3340}.message.wrong{border-color:#efa876}.popover:has(.message:not(.wrong)){cursor:pointer}.expression{font-size:58px;line-height:1.1}.message h2{margin:10px 0 6px;font-size:30px}.message button{margin-top:15px;padding:9px 22px;border:0;border-radius:12px;background:var(--green);color:#fff;font-weight:800}.message button[hidden]{display:none}
 [hidden]{display:none!important}.modes{display:flex;gap:8px;margin-top:15px}.modes button{border:1px solid #c7ddcb;background:#fff;color:#255244;border-radius:99px;padding:9px 16px;font-weight:800}.modes button[aria-pressed=true]{background:#175b49;color:white;border-color:#175b49}.digital{font-size:42px;font-weight:850;font-variant-numeric:tabular-nums;margin-top:14px;color:#175b49}.readings{display:grid;gap:8px;margin:8px 0 0}.readings div{display:grid;grid-template-columns:4em 1fr;gap:8px;align-items:baseline;padding:10px 12px;border-radius:12px;background:#f1f7ee}.readings dt{font-size:14px;font-weight:800;color:#416254}.readings dd{margin:0;font-size:18px;font-weight:750;overflow-wrap:anywhere}.interactive{cursor:crosshair}.interactive .hand{cursor:grab;touch-action:none}.interactive .hand:active{cursor:grabbing}.interactive .hand::after{content:"";position:absolute;inset:-9px -8px 28%;border-radius:99px}.interactive .hand:focus-visible{outline:3px solid #173b33;outline-offset:3px}.interactive .pin{pointer-events:none}
-.reveal{align-self:flex-start;margin-top:16px;min-height:44px;padding:9px 18px;border:0;border-radius:12px;background:#175b49;color:white;font-weight:800}.speech-options{display:flex;flex-wrap:wrap;align-items:center;gap:5px}.speech-button{display:inline-flex;align-items:center;gap:6px;min-height:42px;padding:5px 9px;border:1px solid #aacbb8;border-radius:9px;background:#fff;color:#173b33;text-align:left;font-weight:750}.speech-button:hover{background:#dceee1}.speech-divider{color:#577268}.speech-status:not(:empty){margin-top:8px;font-size:14px}#interface-language{font:inherit;color:#173b33;background:#fff;border:1px solid #aacbb8;border-radius:9px;padding:8px;max-width:100%}.top{flex-wrap:wrap}.top .score{margin-inline-start:auto}</style></head>
+.reveal{align-self:flex-start;margin-top:16px;min-height:44px;padding:9px 18px;border:0;border-radius:12px;background:#175b49;color:white;font-weight:800}.speech-options{display:flex;flex-wrap:wrap;align-items:center;gap:5px}.speech-button{display:inline-flex;align-items:center;gap:6px;min-height:42px;padding:5px 9px;border:1px solid #aacbb8;border-radius:9px;background:#fff;color:#173b33;text-align:left;font-weight:750}.speech-button:hover{background:#dceee1}.speech-divider{color:#577268}.speech-status:not(:empty){margin-top:8px;font-size:14px}#interface-language{font:inherit;color:#173b33;background:#fff;border:1px solid #aacbb8;border-radius:9px;padding:8px;max-width:100%}.top{flex-wrap:wrap}.top .score{margin-inline-start:auto}.language-control{display:flex;align-items:center;gap:7px;flex-wrap:wrap}.language-control label{font-size:14px;color:#416254}</style></head>
 <body><div class="shell">
-<header class="top"><div class="brand"><span class="icon" aria-hidden="true">◷</span><span id="brand-title">时钟小探险</span></div><span class="score" id="score" aria-live="polite">⭐ 0 颗星</span><select id="interface-language" aria-label="界面语言 / Interface language / Bahasa antarmuka"><option value="zh" lang="zh-CN">中文</option><option value="en" lang="en">English</option><option value="id" lang="id">Bahasa Indonesia</option></select></header>
+<header class="top"><div class="brand"><span class="icon" aria-hidden="true">◷</span><span id="brand-title">时钟小探险</span></div><span class="score" id="score" aria-live="polite">⭐ 0 颗星</span><div class="language-control"><label id="language-label" for="interface-language">选择语言</label><select id="interface-language"><option value="zh" lang="zh-CN">中文</option><option value="en" lang="en">English</option><option value="id" lang="id">Bahasa Indonesia</option></select></div></header>
 <nav class="modes" aria-label="游戏模式"><button type="button" id="quiz-mode" aria-pressed="true">模式一 · 看钟答题</button><button type="button" id="explore-mode" aria-pressed="false">模式二 · 拨钟读时间</button></nav>
 <main><section class="stage"><div id="clock" class="clock" role="img" aria-label="指针时钟"></div><div class="legend"><span>蓝色短针 · 时针</span><span>橙色长针 · 分针</span></div></section>
 <section class="quiz" id="quiz"><p class="progress" id="progress" aria-live="polite"></p>
@@ -447,6 +447,7 @@ const translations = {
     "foot": "答对一题，就能收集一颗星！",
     "retry": "再试一次",
     "modes": "游戏模式",
+    "languageLabel": "选择语言",
     "show": "显示答案",
     "hide": "隐藏答案",
     "right": "答对啦！",
@@ -486,6 +487,7 @@ const translations = {
     "foot": "Earn a star for every correct answer!",
     "retry": "Try Again",
     "modes": "Game mode",
+    "languageLabel": "Choose language",
     "show": "Show Answer",
     "hide": "Hide Answer",
     "right": "You got it!",
@@ -525,6 +527,7 @@ const translations = {
     "foot": "Dapatkan satu bintang untuk setiap jawaban benar!",
     "retry": "Coba Lagi",
     "modes": "Mode permainan",
+    "languageLabel": "Pilih bahasa",
     "show": "Tampilkan Jawaban",
     "hide": "Sembunyikan Jawaban",
     "right": "Benar!",
@@ -551,6 +554,7 @@ const translations = {
 };
 const staticLabels = {
   "#brand-title": "title",
+  "#language-label": "languageLabel",
   "#quiz-mode": "quizMode",
   "#explore-mode": "exploreMode",
   ".legend span:first-child": "hourLegend",
