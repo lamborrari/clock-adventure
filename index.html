@@ -94,8 +94,8 @@ popover.addEventListener('keydown', event => {
 });
 const score = document.querySelector('#score');
 const progress = document.querySelector('#progress');
-const periods = [60, 30, 5];
-const levelKeys = ['whole', 'half', 'five'];
+const periods = [60, 30, 15, 5, 1];
+const levelKeys = ['whole', 'half', 'quarter', 'five', 'exact'];
 const questionsPerLevel = 5;
 let level = 0;
 let current = -1;
@@ -147,6 +147,11 @@ function startQuestion(focusAnswers = false, justAdvanced = false) {
   const nearby = times.filter(time => time !== current &&
     (time % 60 === minute || Math.floor(time / 60) === Math.floor(current / 60)));
   const choices = [current];
+  if (step === 1) {
+    const adjacent = nearby.filter(time => Math.abs(time - current) === 1 &&
+      Math.floor(time / 60) === Math.floor(current / 60));
+    choices.push(randomItem(adjacent));
+  }
   while (choices.length < 4) {
     const pool = nearby.filter(time => !choices.includes(time));
     choices.push(randomItem(pool));
@@ -169,7 +174,7 @@ function startQuestion(focusAnswers = false, justAdvanced = false) {
         button.classList.add('wrong');
         feedback.textContent = time % 60 === current % 60
           ? t('hourHint')
-          : t('minuteHint');
+          : t(periods[level] === 1 ? 'exactHint' : 'minuteHint');
         showResult(false, feedback.textContent, button);
         return;
       }
@@ -427,7 +432,9 @@ for (const [hand, unit, degrees] of [
 function drawQuizClock() {
   drawClock(current);
   const minute = current % 60;
-  clock.setAttribute('aria-label', t('clock', Math.floor(current / 60) || 12, minute / 5 || 12));
+  const hour = Math.floor(current / 60) || 12;
+  const label = minute % 5 === 0 ? t('clock', hour, minute / 5 || 12) : t('exactClock', hour, minute);
+  clock.setAttribute('aria-label', label);
 }
 
 const translations = {
@@ -467,7 +474,11 @@ const translations = {
     "clock": "指针时钟，时针在 {0} 附近，分针指向 {1}",
     "whole": "整点",
     "half": "整点和半点",
+    "quarter": "一刻钟",
     "five": "每 5 分钟",
+    "exact": "精确到 1 分钟",
+    "exactHint": "看橙色长针。从 12 顺时针数，每小格是 1 分钟。",
+    "exactClock": "指针时钟，时针在 {0} 附近，分针从 12 顺时针走了 {1} 小格",
     "description": "看指针、选时间，和孩子一起练习读时钟。"
   },
   "en": {
@@ -506,7 +517,11 @@ const translations = {
     "clock": "Analog clock, hour hand near {0}, minute hand pointing to {1}",
     "whole": "Whole hours",
     "half": "Hours and half hours",
+    "quarter": "Quarter hours",
     "five": "Every 5 minutes",
+    "exact": "To the minute",
+    "exactHint": "Follow the orange hand clockwise from 12. Each small mark is one minute.",
+    "exactClock": "Analog clock, hour hand near {0}, minute hand {1} small marks clockwise from 12",
     "description": "Learn to tell time with an interactive clock."
   },
   "id": {
@@ -545,7 +560,11 @@ const translations = {
     "clock": "Jam analog, jarum jam dekat angka {0}, jarum menit menunjuk angka {1}",
     "whole": "Jam tepat",
     "half": "Jam tepat dan setengah jam",
+    "quarter": "Setiap 15 menit",
     "five": "Setiap 5 menit",
+    "exact": "Tepat hingga satu menit",
+    "exactHint": "Ikuti jarum jingga searah jarum jam dari angka 12. Setiap tanda kecil berarti satu menit.",
+    "exactClock": "Jam analog, jarum jam dekat angka {0}, jarum menit {1} tanda kecil searah jarum jam dari angka 12",
     "description": "Belajar membaca waktu dengan jam interaktif."
   }
 };
